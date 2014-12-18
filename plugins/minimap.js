@@ -2,7 +2,7 @@
  * minimap
  * https://github.com/dryas/impactjs-minimap
  *
- * v1.0.0
+ * v1.0.1
  *
  * A plugin for the ImpactJS engine to display minimaps and a radar for entities.
  *
@@ -33,14 +33,16 @@ ig.module(
 	 * Draws a map on the screen.
 	 *
 	 * Parameters:
-	 *      name      = Name of the map to display (same as
-	 *                  used on generateMiniMap())
-	 *      posx      = Position (X) where the map should be displayed
-	 *      posy      = Position (Y) where the map should be displayed
-	 *      entities  = Array of entities which position should be 
-	 *                  displayed on the map
+	 *      name           = Name of the map to display (same as
+	 *                       used on generateMiniMap())
+	 *      posx           = Position (X) where the map should be displayed
+	 *      posy           = Position (Y) where the map should be displayed
+	 *      entities       = Array of entities which position should be 
+	 *                       displayed on the map
+	 *      viewport       = [true/false] Show the current viewport on Map
+	 *      viewportcolor  = Define color of screenclipping
 	 */
-	drawMiniMap: function(name, posx, posy, entities)
+	drawMiniMap: function(name, posx, posy, entities, viewport, viewportcolor)
 	{
 		// Needed parameters:
 		if (typeof name === 'undefined')
@@ -49,6 +51,10 @@ ig.module(
 		// Optional parameters "posx" and "posy". Set to ("posx", "posy") 0 by default:
 		posx = typeof posx !== 'undefined' ? posx : 0;
 		posy = typeof posy !== 'undefined' ? posy : 0;
+
+		// Optional parameter "viewport" and "viewportcolor":
+		viewport = typeof viewport !== 'undefined' ? viewport : false;
+		viewportcolor = typeof viewportcolor !== 'undefined' ? viewportcolor : '#f0f';
 
 		// Get scaling factor:
 		var s = ig.system.scale;
@@ -86,6 +92,20 @@ ig.module(
 			}
 		}
 
+		// Draw viewport:
+		if (viewport)
+		{
+			ctx.lineWidth = 1;
+			ctx.strokeStyle = viewportcolor;
+			ctx.strokeRect(
+				// Add 0.5 to the starting position (workaround to draw sharp shapes):
+				posx + (this.maps[name + '_offsetx'] * s) + (ig.game.screen.x / ig.game.collisionMap.tilesize) * s * 2 + 0.5,
+				posy + (this.maps[name + '_offsety'] * s) + (ig.game.screen.y / ig.game.collisionMap.tilesize) * s * 2 + 0.5,
+				(ig.system.width / ig.game.collisionMap.tilesize) * s * 2,
+				(ig.system.height / ig.game.collisionMap.tilesize) * s * 2
+			);
+		}
+
 		// Restore former state of the canvas:
 		ctx.restore();
 	},
@@ -102,7 +122,7 @@ ig.module(
 	 *      height    = Height of the minimap
 	 *      layer     = Array of layer ids that should be displayed on
 	 *                  the generated map
-	 *		resize	  = Should the map be resized to the width and height values?
+	 *		resize	  = [true/false] Should the map be resized to the width and height values?
 	 *
 	 * ATTENTION: Do NOT call it in the draw function because this will have
 	 *            a big impact on performance, if the map needs to be redrawn
