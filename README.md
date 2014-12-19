@@ -8,7 +8,7 @@ This is a minimap plugin for [ImpactJS](http://www.impactjs.com/).
 Features
 --------
 
- * Generate minimap on the fly, no "pre-rendered" images needed
+ * Generate multiple(!) minimaps in different sized (e.g. minimap vs. commander map) on the fly, no "pre-rendered" images needed
  * Choose which layers of the map should be displayed on the minimap
  * Display entities and their movement by entity type on the map
  * Choose if you want the entities displayed as a rectancle or as an image
@@ -46,6 +46,35 @@ EntityPlayer = EntityClient.extend({
     ...
 });
 ```
+
+Configuration
+------------
+
+There are two functions you need to call:
+
+### generateMiniMap():
+
+This function needs to be called in your "init" function. It will generate the minimap graphic from the big playable map and cache it for later usage. You can add the following parameters:
+
+| Parameter        | Description  |
+| ---------------- | ------------ |
+| name             | This parameter defines the name of the minimap. All the time later when you want to draw the map you need to use it as a reference |
+| width            | Width of the minimap |
+| height           | Height of the minimap |
+| layer            | An array of layers (of the map) you want to display on the minimap. |
+
+### drawMiniMap();
+
+This function needs to be called in your "draw" function. It will display the minimap in your canvas:
+
+| Parameter        | Description  |
+| ---------------- | ------------ |
+| name             | The map you want to display (as you have defined in the generateMiniMap() function |
+| posx             | Position X where you want to display the minimap |
+| posy             | Position Y where you want to display the minimap |
+| entities         | An array of entities you want to display on the map (entitytype) |
+| showviewport     | [true/false] Should the viewport be displayed on the minimap? |
+| viewportcolor    | Define the color of the displayed viewport |
 
 Support impactjs-minimap development
 ------------------------------------
