@@ -76,6 +76,24 @@ This function needs to be called in your "draw" function. It will display the mi
 | showviewport     | [true/false] Should the viewport be displayed on the minimap? |
 | viewportcolor    | Define the color of the displayed viewport |
 
+### Entity configuration
+
+```
+EntityPlayer = EntityClient.extend({
+    miniMap: { mapColor: '#0000FF', mapSize: 4, icon: 'media/playericon.png', iconOffset: {x: 0, y: 0} },
+    ...
+});
+```
+
+If you want to display the entities and their positions on the minimap, you need to add a configuration parameter "miniMap" to the entity. You can use the following paramters:
+
+| Parameter        | Description  |
+| ---------------- | ------------ |
+| mapColor         | The color of the entity on the minimap |
+| mapSize          | The size of the entity on the minimap |
+| icon             | If you want to display a graphic instead of the colored rectange, you can define it here |
+| iconOffset       | If the icon should be displayed with an offset, it can be defined here |
+
 Support impactjs-minimap development
 ------------------------------------
 
