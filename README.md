@@ -94,6 +94,8 @@ If you want to display the entities and their positions on the minimap, you need
 | icon             | If you want to display a graphic instead of the colored rectange, you can define it here |
 | iconOffset       | If the icon should be displayed with an offset, it can be defined here |
 
+![Icon](https://github.com/dryas/impactjs-minimap/blob/master/doc/img/icon.png)
+
 Support impactjs-minimap development
 ------------------------------------
 
